@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Configuration;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -48,7 +49,11 @@ namespace StackExchange.Opserver.SettingsProviders
 
         private void AddUpdateWatcher<T>(T settings) where T : Settings<T>, new()
         {
-            var watcher = new FileSystemWatcher(Path, typeof (T).Name + ".json")
+            var settingsFileName = GetFullFileName<T>();
+            if (!File.Exists(settingsFileName)) return;
+
+            // NOTE: only watch changes in existing files
+            var watcher = new FileSystemWatcher(System.IO.Path.GetDirectoryName(settingsFileName), System.IO.Path.GetFileName(settingsFileName))
                 {
                     NotifyFilter = NotifyFilters.LastWrite
                 };
@@ -61,8 +66,12 @@ namespace StackExchange.Opserver.SettingsProviders
         }
 
         private string GetFullFileName<T>()
-        {
-            return System.IO.Path.Combine(Path, typeof (T).Name + ".json");
+        {   
+            // NOTE: look for a specific configured file first (some settings files could be generic)
+            string settingsFileName = System.IO.Path.Combine(Path, String.Format("{0}{1}.json", typeof (T).Name, ConfigurationManager.AppSettings["SettingsFileSuffix"]));
+            if(!File.Exists(settingsFileName)) 
+                settingsFileName = System.IO.Path.Combine(Path, String.Format("{0}.json", typeof (T).Name));
+            return settingsFileName;
         }
 
         private T GetFromFile<T>() where T : new()

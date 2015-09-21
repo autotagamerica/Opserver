@@ -80,7 +80,8 @@ namespace StackExchange.Opserver.Models
 
         public static void AddTab(TopTab tab)
         {
-            Tabs.Add(tab.Order, tab);
+            if(tab.IsEnabled)
+                Tabs.Add(tab.Order, tab);
         }
     }
 
@@ -98,7 +99,10 @@ namespace StackExchange.Opserver.Models
         public bool IsEnabled
         {
             get
-            {
+            {                
+                var settings = SecurableSection as Settings;
+                if (settings != null && !settings.Enabled) return false;
+                
                 if (SecurableSection != null && !SecurableSection.HasAccess()) return false;
                 return GetIsEnabled == null || GetIsEnabled();
             }

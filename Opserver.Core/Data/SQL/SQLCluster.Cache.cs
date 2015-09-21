@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StackExchange.Opserver.Data.SQL
@@ -17,9 +18,12 @@ namespace StackExchange.Opserver.Data.SQL
             lock (_loadLock)
             {
                 if (_sqlClusters != null) return _sqlClusters;
-                return Current.Settings.SQL.Enabled
-                           ? Current.Settings.SQL.Clusters.Select(c => new SQLCluster(c)).ToList()
-                           : new List<SQLCluster>();
+                
+                _sqlClusters = Current.Settings.SQL.Enabled
+                    ? Current.Settings.SQL.Clusters.Select(c => new SQLCluster(c)).ToList()
+                    : new List<SQLCluster>();                
+
+                return _sqlClusters;
             }
         }
     }

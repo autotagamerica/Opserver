@@ -3,7 +3,7 @@
 namespace StackExchange.Opserver
 {
     public interface ISecurableSection
-    {
+    {        
         string ViewGroups { get; }
         string AdminGroups { get; }
     }

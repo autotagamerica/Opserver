@@ -16,6 +16,8 @@ namespace StackExchange.Opserver
                 return new EveryonesReadOnlyProvider();
             switch (SecuritySettings.Current.Provider.ToLowerInvariant())
             {
+                case "windows":
+                    return new WindowsIntegratedProvider();
                 case "activedirectory":
                 case "ad":
                     return new ActiveDirectoryProvider(SecuritySettings.Current);

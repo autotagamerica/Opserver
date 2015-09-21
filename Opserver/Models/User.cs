@@ -15,16 +15,20 @@ namespace StackExchange.Opserver.Models
         public User(IIdentity identity)
         {
             Identity = identity;
-            var i = identity as FormsIdentity;
-            if (i == null)
-            {
-                IsAnonymous = true;
-                return;
-            }
+            
+            // NOTE: removed to Support Windows Authentication
+            //var i = identity as FormsIdentity;
+            //if (i == null)
+            //{
+            //    IsAnonymous = true;
+            //    return;
+            //}
 
-            IsAnonymous = !i.IsAuthenticated;
-            if (i.IsAuthenticated)
-                AccountName = i.Name;
+            IsAnonymous = !identity.IsAuthenticated;
+            if (IsAnonymous) return;
+
+            if (identity.IsAuthenticated)
+                AccountName = identity.Name;
         }
 
         public bool IsInRole(string role)

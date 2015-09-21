@@ -23,8 +23,8 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <TargetFrameworkProfile />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
   </PropertyGroup>
@@ -224,6 +224,13 @@
     <Content Include="Content\Styles.css.map">
       <DependentUpon>Styles.css</DependentUpon>
     </Content>
+    <Content Include="Config\DashboardSettingsDebug.json" />
+    <Content Include="Config\DashboardSettings.json" />
+    <Content Include="Config\ExceptionsSettingsDebug.json" />
+    <Content Include="Config\ExceptionsSettings.json" />
+    <Content Include="Config\SecuritySettings.config" />
+    <Content Include="Config\SQLSettingsDebug.json" />
+    <Content Include="Config\SQLSettings.json" />
     <None Include="Content\_Styles.HeadsUp.less">
       <DependentUpon>Styles.less</DependentUpon>
     </None>
@@ -259,6 +266,7 @@
     <Compile Include="Helpers\PerfCounters.cs" />
     <Compile Include="Helpers\ProfiledModelBinder.cs" />
     <Compile Include="Models\ExtensionMethods.cs" />
+    <Compile Include="Models\Security\WindowsIntegratedProvider.cs" />
     <Compile Include="Models\TopTabs.cs" />
     <Compile Include="SecuritySettings.cs" />
     <Compile Include="SiteSettings.cs" />
